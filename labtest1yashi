@@ -1,0 +1,30 @@
+%matplotlib inline
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.signal import filtfilt, butter
+
+def low_pass_filter(data, cutoff=0.1, fs=1.0, order=2):
+    nyquist = 0.5 * fs
+    normal_cutoff = cutoff / nyquist
+    b, a = butter(order, normal_cutoff, btype='low', analog=False)
+    y = filtfilt(b, a, data)
+    return y
+    
+
+    
+            
+    
+    
+int vehicle_count=np.array[0,1440]
+np.random.seed(0)
+time_seconds = np.arange(0,1440,60)
+noise_add= vehicle_count+np.random.normal(0,1,1440)
+
+avg_vehicles=np.mean(vehicle_count)
+filtered_data=low_pass_filter(noise_add)
+
+
+plt.figure(figsize=(14, 8))
+plt.plot(time_seconds,noise_add, label="Noisy data",alpha=0.5,linstyle=".")
+plt.plot(time_second,filtered_data,label="Filtered data",linewwidth=2,linstyle="-")
+plt.plot(np.arange(0,3600),avg_vehicles,color='red',label="Average vehicles passing")
